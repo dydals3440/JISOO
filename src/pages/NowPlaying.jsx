@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Movie from "../components/Movie";
-import { AppContainer } from "../style/Page.style";
-import Loading from "../components/Loading";
-import smallLoading from "../components/smallLoading";
+import React, { useState, useEffect } from 'react';
+import Movie from '../components/Movie';
+import { AppContainer } from '../style/Page.style';
+import Loading from '../components/Loading';
 
 export default function NowPlaying() {
   const [movies, setMovies] = useState([]); //movie 데이터 저장
@@ -20,15 +19,15 @@ export default function NowPlaying() {
         `https://api.themoviedb.org/3/movie/now_playing?language=ko&page=${page}`,
         {
           headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOWQwOGI0YzIzZWQ1NWQ0NWM5OTQzZTg1MmQ5OWE4ZSIsInN1YiI6IjY1MjM5OWI0ZWE4NGM3MDEwYzE4MWM4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JOt6xCNHgNuBw2gnBkSgkMuER30G8kKGzjZmABeG-Aw",
+              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOWQwOGI0YzIzZWQ1NWQ0NWM5OTQzZTg1MmQ5OWE4ZSIsInN1YiI6IjY1MjM5OWI0ZWE4NGM3MDEwYzE4MWM4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JOt6xCNHgNuBw2gnBkSgkMuER30G8kKGzjZmABeG-Aw',
           },
         }
       );
 
       if (!result.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
 
       const data = await result.json();
@@ -37,7 +36,7 @@ export default function NowPlaying() {
       setNextPage(data.page < 500); //다음 페이지가 있는가? > true //lodaing  끝 > 데이터 출력
       setFetching(false);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error('Error fetching data:', error);
     }
   };
 
@@ -45,7 +44,7 @@ export default function NowPlaying() {
   useEffect(() => {
     setLoading(true);
     fetchData(page).then(() => setLoading(false));
-  }, []);
+  }, [page]);
 
   // 만약 화면 아래에 스크롤이 닿는다면
   const handleScroll = () => {
@@ -66,12 +65,12 @@ export default function NowPlaying() {
     } else if (!hasNextPage) {
     }
     setFetching(false);
-  }, [page]);
+  }, [page, hasNextPage, isFetching]);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
   return (
     <AppContainer>
